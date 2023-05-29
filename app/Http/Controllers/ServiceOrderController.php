@@ -12,12 +12,14 @@ class ServiceOrderController extends Controller
     public function create(Request $request)
     {
         $validatedData = Validator::make($request->all(), [
-            'vehiclePlate' => 'required|string|max:50',
+            'vehiclePlate' => 'required|string|max:7',
             'entryDateTime' => 'required|date',
             'exitDateTime' => 'required|date',
-            'priceType' => 'required|numeric',
-            'price' => 'required|numeric',
-            'userId' => 'required|integer|exists:users,id'
+            'priceType' => 'required|string|max:55',
+            'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'userId' => 'required|integer|exists:users,id',
+
+
         ]);
 
         if ($validatedData->fails()) {
